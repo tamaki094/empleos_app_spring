@@ -1,5 +1,6 @@
 package net.edrialan.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Vacante 
@@ -11,7 +12,23 @@ public class Vacante
 	private Double salario;
 	private Integer destacado;
 	private String imagen = "no-image.png";
+	private String estatus;
+	private String detalles;
 	
+	
+	
+	public String getEstatus() {
+		return estatus;
+	}
+	public void setEstatus(String estatus) {
+		this.estatus = estatus;
+	}
+	public String getDetalles() {
+		return detalles;
+	}
+	public void setDetalles(String detalles) {
+		this.detalles = detalles;
+	}
 	public String getImagen() {
 		return imagen;
 	}
@@ -52,11 +69,15 @@ public class Vacante
 		this.descripcion = descripcion;
 	}
 	public Date getFecha() 
-	{
+	{		
+		System.out.println("getFecha:" + fecha );
+		System.out.println(new Date().toString());
 		return fecha;
 	}
 	public void setFecha(Date fecha) 
 	{
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		System.out.println("setFecha: "  + fecha);
 		this.fecha = fecha;
 	}
 	public Double getSalario()
@@ -67,11 +88,15 @@ public class Vacante
 	{
 		this.salario = salario;
 	}
+	
 	@Override
 	public String toString() {
 		return "Vacante [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", fecha=" + fecha
-				+ ", salario=" + salario + ", destacado=" + destacado + "]";
+				+ ", salario=" + salario + ", destacado=" + destacado + ", imagen=" + imagen + ", estatus=" + estatus
+				+ ", detalles=" + detalles + "]";
 	}
+
+	
 	
 	
 	
