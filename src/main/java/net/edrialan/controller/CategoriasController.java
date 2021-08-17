@@ -20,7 +20,7 @@ public class CategoriasController {
 	@RequestMapping(value="/create", method=RequestMethod.GET)
 	public String crear() 
 	{
-	return "categorias/formCategoria";
+		return "categorias/formCategoria";
 	}
 	// @PostMapping("/save")
 	@RequestMapping(value="/save", method=RequestMethod.POST)
