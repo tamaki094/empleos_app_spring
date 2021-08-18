@@ -1,12 +1,15 @@
 package net.edrialan.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -25,6 +28,15 @@ public class VacantesController {
 	
 	@Autowired
 	private IVacantesService service;
+	
+	@GetMapping("/")
+	public String mostrarIndex(Model model)
+	{
+		List<Vacante> vacantes = service.buscarTodas();
+		model.addAttribute("vacantes", vacantes);
+		
+		return "vacantes/listVacantes";
+	}
 	
 	@GetMapping("/create")
 	public String crear()
@@ -49,8 +61,17 @@ public class VacantesController {
 	}*/
 	
 	@PostMapping("/save")
-	public String guardar(Vacante vacante)
+	public String guardar(Vacante vacante, BindingResult result)
 	{
+		
+		if(result.hasErrors())
+		{
+			for(ObjectError error : result.getAllErrors())
+			{
+				System.out.println("Ocurrio un error: "+ error.getDefaultMessage());
+			}
+			return "vacantes/formVacante";
+		}
 		System.out.println("Detalles:" + vacante.toString());
 		service.guardar(vacante);
 		return "vacantes/listVacantes";

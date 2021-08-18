@@ -30,6 +30,8 @@ public class VacantesServiceImpl implements IVacantesService
 			vacante1.setDestacado(1);
 			vacante1.setSalario(9700.00);
 			vacante1.setImagen("empresa1.png");
+			vacante1.setCategoria("Informatica");
+			vacante1.setEstatus("Creada");
 			
 			lista.add(vacante1);
 			
@@ -44,6 +46,8 @@ public class VacantesServiceImpl implements IVacantesService
 			vacante2.setDestacado(0);
 			vacante2.setSalario(600.00);
 			vacante2.setImagen("empresa2.png");
+			vacante2.setCategoria("Contabilidad");
+			vacante2.setEstatus("Aprobada");
 			
 			lista.add(vacante2);
 			
@@ -56,6 +60,8 @@ public class VacantesServiceImpl implements IVacantesService
 			//vacante3.setFecha("02-02-2021");
 			vacante3.setDestacado(1);
 			vacante3.setSalario(200.00);
+			vacante3.setCategoria("Construccion");
+			vacante3.setEstatus("Creada");
 			
 			lista.add(vacante3);
 			

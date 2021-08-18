@@ -14,11 +14,16 @@ public class Vacante
 	private String imagen = "no-image.png";
 	private String estatus;
 	private String detalles;
+	private String categoria;
 	
 	
 	
-	
-	
+	public String getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
 	public String getEstatus() {
 		return estatus;
 	}
@@ -70,8 +75,6 @@ public class Vacante
 	{
 		this.descripcion = descripcion;
 	}
-	
-	
 	public Date getFecha() 
 	{		
 		System.out.println("getFecha:" + fecha );
@@ -84,8 +87,6 @@ public class Vacante
 		System.out.println("setFecha: "  + fecha);
 		this.fecha = fecha;
 	}
-	
-	
 	public Double getSalario()
 	{
 		return salario;
@@ -99,8 +100,10 @@ public class Vacante
 	public String toString() {
 		return "Vacante [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", fecha=" + fecha
 				+ ", salario=" + salario + ", destacado=" + destacado + ", imagen=" + imagen + ", estatus=" + estatus
-				+ ", detalles=" + detalles + "]";
+				+ ", detalles=" + detalles + ", categoria=" + categoria + "]";
 	}
+	
+	
 	
 	
 
