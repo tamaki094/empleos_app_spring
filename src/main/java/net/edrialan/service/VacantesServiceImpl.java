@@ -26,6 +26,7 @@ public class VacantesServiceImpl implements IVacantesService
 			vacante1.setNombre("Ingeniero de comunicaciones");
 			vacante1.setDescripcion("Se solicita ing para dar soporte a intranet");
 			vacante1.setFecha(sdf.parse("08-02-2021"));
+			//vacante1.setFecha("08-02-2021");
 			vacante1.setDestacado(1);
 			vacante1.setSalario(9700.00);
 			vacante1.setImagen("empresa1.png");
@@ -39,6 +40,7 @@ public class VacantesServiceImpl implements IVacantesService
 			vacante2.setNombre("Contador");
 			vacante2.setDescripcion("Hacer cosas de contadores");
 			vacante2.setFecha(sdf.parse("08-02-2021"));
+			//vacante2.setFecha("08-02-2021");
 			vacante2.setDestacado(0);
 			vacante2.setSalario(600.00);
 			vacante2.setImagen("empresa2.png");
@@ -50,7 +52,8 @@ public class VacantesServiceImpl implements IVacantesService
 			vacante3.setId(3);
 			vacante3.setNombre("Conserje");
 			vacante3.setDescripcion("Limpiar cosas feas");
-			vacante3.setFecha(sdf.parse("02-02-2021"));
+			vacante3.setFecha(sdf.parse("08-02-2021"));
+			//vacante3.setFecha("02-02-2021");
 			vacante3.setDestacado(1);
 			vacante3.setSalario(200.00);
 			
@@ -81,6 +84,12 @@ public class VacantesServiceImpl implements IVacantesService
 			}
 		}
 		return null;
+	}
+
+
+	@Override
+	public void guardar(Vacante vacante) {
+		lista.add(vacante);		
 	}
 
 }

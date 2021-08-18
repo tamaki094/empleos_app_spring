@@ -17,6 +17,8 @@ public class Vacante
 	
 	
 	
+	
+	
 	public String getEstatus() {
 		return estatus;
 	}
@@ -68,6 +70,8 @@ public class Vacante
 	{
 		this.descripcion = descripcion;
 	}
+	
+	
 	public Date getFecha() 
 	{		
 		System.out.println("getFecha:" + fecha );
@@ -80,6 +84,8 @@ public class Vacante
 		System.out.println("setFecha: "  + fecha);
 		this.fecha = fecha;
 	}
+	
+	
 	public Double getSalario()
 	{
 		return salario;
@@ -95,6 +101,11 @@ public class Vacante
 				+ ", salario=" + salario + ", destacado=" + destacado + ", imagen=" + imagen + ", estatus=" + estatus
 				+ ", detalles=" + detalles + "]";
 	}
+	
+	
+
+	
+	
 
 	
 	
