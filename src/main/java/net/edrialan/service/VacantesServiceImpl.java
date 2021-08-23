@@ -13,6 +13,7 @@ import net.edrialan.model.Vacante;
 public class VacantesServiceImpl implements IVacantesService 
 {
 	private List<Vacante> lista = null;
+	
 	public VacantesServiceImpl()
 	{	
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");

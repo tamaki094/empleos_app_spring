@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.edrialan.model.Vacante;
 import net.edrialan.service.IVacantesService;
@@ -39,7 +40,7 @@ public class VacantesController {
 	}
 	
 	@GetMapping("/create")
-	public String crear()
+	public String crear(Vacante result)
 	{
 		
 		return "vacantes/formVacante";
@@ -61,7 +62,7 @@ public class VacantesController {
 	}*/
 	
 	@PostMapping("/save")
-	public String guardar(Vacante vacante, BindingResult result)
+	public String guardar(Vacante vacante, BindingResult result, RedirectAttributes atributes)
 	{
 		
 		if(result.hasErrors())
@@ -74,7 +75,11 @@ public class VacantesController {
 		}
 		System.out.println("Detalles:" + vacante.toString());
 		service.guardar(vacante);
-		return "vacantes/listVacantes";
+		
+		atributes.addFlashAttribute("msg", "Registro Guardado");
+		
+		
+		return "redirect:/vacantes/";
 	}
 	
 	@GetMapping("/delete")
