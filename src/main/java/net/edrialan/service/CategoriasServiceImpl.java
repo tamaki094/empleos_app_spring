@@ -14,7 +14,6 @@ public class CategoriasServiceImpl implements ICategoriasService
 	
 	public CategoriasServiceImpl()
 	{
-		System.out.println("Hola soy el ocntructor");
 		lista = new LinkedList<Categoria>();
 		
 		Categoria categoria1 = new Categoria();
@@ -44,6 +43,13 @@ public class CategoriasServiceImpl implements ICategoriasService
 		categoria4.setDescripcion("");
 		
 		lista.add(categoria4);
+		
+		Categoria categoria5 = new Categoria();
+		categoria5.setId(5);
+		categoria5.setNombre("Gerencia");
+		categoria5.setDescripcion("");
+		
+		lista.add(categoria5);
 	}
 	
 
@@ -70,7 +76,6 @@ public class CategoriasServiceImpl implements ICategoriasService
 
 	@Override
 	public List<Categoria> buscarTodas() {
-		System.out.println("me llamaban?");
 		return lista;
 	}
 

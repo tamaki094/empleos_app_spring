@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import net.edrialan.model.Categoria;
 import net.edrialan.model.Vacante;
 
 
@@ -19,6 +20,7 @@ public class VacantesServiceImpl implements IVacantesService
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		lista = new LinkedList<Vacante>();
 		 
+		CategoriasServiceImpl serviceImpl = new CategoriasServiceImpl();
 		try 
 		{
 			Vacante vacante1 = new Vacante();
@@ -31,7 +33,7 @@ public class VacantesServiceImpl implements IVacantesService
 			vacante1.setDestacado(1);
 			vacante1.setSalario(9700.00);
 			vacante1.setImagen("empresa1.png");
-			vacante1.setCategoria("Informatica");
+			vacante1.setCategoria(serviceImpl.buscarPorId(1));
 			vacante1.setEstatus("Creada");
 			
 			lista.add(vacante1);
@@ -47,7 +49,7 @@ public class VacantesServiceImpl implements IVacantesService
 			vacante2.setDestacado(0);
 			vacante2.setSalario(600.00);
 			vacante2.setImagen("empresa2.png");
-			vacante2.setCategoria("Contabilidad");
+			vacante2.setCategoria(serviceImpl.buscarPorId(2));
 			vacante2.setEstatus("Aprobada");
 			
 			lista.add(vacante2);
@@ -61,7 +63,7 @@ public class VacantesServiceImpl implements IVacantesService
 			//vacante3.setFecha("02-02-2021");
 			vacante3.setDestacado(1);
 			vacante3.setSalario(200.00);
-			vacante3.setCategoria("Construccion");
+			vacante3.setCategoria(serviceImpl.buscarPorId(3));
 			vacante3.setEstatus("Creada");
 			
 			lista.add(vacante3);

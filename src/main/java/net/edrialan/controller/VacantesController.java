@@ -3,7 +3,6 @@ package net.edrialan.controller;
 import java.util.Date;
 import java.util.List;
 import java.text.SimpleDateFormat;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -17,11 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import net.edrialan.model.Vacante;
+import net.edrialan.service.ICategoriasService;
 import net.edrialan.service.IVacantesService;
+import net.edrialan.util.Utileria;
 
 @Controller
 @RequestMapping("/vacantes")
@@ -29,6 +29,9 @@ public class VacantesController {
 	
 	@Autowired
 	private IVacantesService service;
+	
+	@Autowired
+	private ICategoriasService serviceCategorias;
 	
 	@GetMapping("/")
 	public String mostrarIndex(Model model)
@@ -40,9 +43,9 @@ public class VacantesController {
 	}
 	
 	@GetMapping("/create")
-	public String crear(Vacante result)
+	public String crear(Vacante result, Model model)
 	{
-		
+		model.addAttribute("categorias", serviceCategorias.buscarTodas());
 		return "vacantes/formVacante";
 	}
 	
@@ -62,9 +65,8 @@ public class VacantesController {
 	}*/
 	
 	@PostMapping("/save")
-	public String guardar(Vacante vacante, BindingResult result, RedirectAttributes atributes)
-	{
-		
+	public String guardar(Vacante vacante, BindingResult result, RedirectAttributes atributes, @RequestParam("archivoImagen")MultipartFile multipart)
+	{		
 		if(result.hasErrors())
 		{
 			for(ObjectError error : result.getAllErrors())
@@ -72,6 +74,17 @@ public class VacantesController {
 				System.out.println("Ocurrio un error: "+ error.getDefaultMessage());
 			}
 			return "vacantes/formVacante";
+		}
+		
+		if(!multipart.isEmpty())
+		{
+			String ruta = "c:/empleos/img-vacantes/";
+			String nombreImagen = Utileria.guardarArchivo(multipart, ruta);
+			
+			if (nombreImagen != null)
+			{
+				vacante.setImagen(nombreImagen); 
+			}
 		}
 		System.out.println("Detalles:" + vacante.toString());
 		service.guardar(vacante);
