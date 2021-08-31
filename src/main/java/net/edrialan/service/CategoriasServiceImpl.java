@@ -3,6 +3,7 @@ package net.edrialan.service;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import net.edrialan.model.Categoria;
