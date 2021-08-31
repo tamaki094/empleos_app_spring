@@ -28,6 +28,7 @@
           <h4 class="card-header"><strong>Datos de la oferta de trabajo</strong></h4>              
           <div class="card-body">
             <form th:action="@{/vacantes/save}" method="post" th:object="${vacante}" enctype="multipart/form-data">
+            	<input type="hidden" class="form-control" th:field="*{id}" id="id" name="id" placeholder="Id vacante">          
             	<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger" role="alert">
             		Por favor corrija los siguientes errores:
             		<ul>
@@ -113,7 +114,7 @@
                 </div> 
                 <div class="col-md-3">
                   <label for="imagen">Imagen/Logo</label>
-                  <img class="rounded mx-auto d-block" src="images/construccion-logo.png" alt="Generic placeholder image" width="200" height="200">            
+                  <img class="rounded mx-auto d-block" th:src="@{/logos/{img} (img=${vacante.imagen}) }" alt="Generic placeholder image" width="200" height="200">            
                 </div>
               </div> 
               <button type="submit" class="btn btn-primary">Guardar</button>  

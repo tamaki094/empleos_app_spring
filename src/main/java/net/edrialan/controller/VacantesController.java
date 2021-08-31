@@ -72,7 +72,7 @@ public class VacantesController {
 	
 	@PostMapping("/save")
 	public String guardar(Vacante vacante, BindingResult result, RedirectAttributes atributes, @RequestParam("archivoImagen")MultipartFile multipart)
-	{		
+	{			
 		if(result.hasErrors())
 		{
 			for(ObjectError error : result.getAllErrors())
@@ -101,13 +101,16 @@ public class VacantesController {
 		return "redirect:/vacantes/";
 	}
 	
-	@GetMapping("/delete")
-	public String eliminar(@RequestParam("id") int idVacante, Model model)
+	@GetMapping("/delete/{id}")
+	public String eliminar(@PathVariable("id") int idVacante, Model model, RedirectAttributes atributes)
 	{
+		
+		service.eliminar(idVacante);
+		atributes.addFlashAttribute("msg", "La vacante ha sido eliminada");
 		System.out.println("Borrando vacante con id:" + idVacante);
 		model.addAttribute("id" , idVacante);
 		
-		return "mensaje";
+		return "redirect:/vacantes/";
 	}
 	
 	@GetMapping("/view/{id}")
@@ -124,5 +127,15 @@ public class VacantesController {
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		webDataBinder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+	}
+	
+	@GetMapping("/edit/{id}")
+	public String editar(@PathVariable("id")int idVacante, Model model)
+	{
+		Vacante vacante = service.buscarPorId(idVacante);
+		model.addAttribute("vacante", vacante);
+		model.addAttribute("categorias", serviceCategorias.buscarTodas());
+		return "vacantes/formVacante";
+		
 	}
 }
