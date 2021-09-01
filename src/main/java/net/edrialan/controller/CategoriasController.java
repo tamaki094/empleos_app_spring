@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.edrialan.model.Categoria;
@@ -25,12 +25,12 @@ public class CategoriasController {
 	
 	@Autowired
 	@Qualifier("categoriasServiceJpa")
-	private ICategoriasService service;
+	private ICategoriasService serviceCategorias;
 	
 	@GetMapping("/index")
 	public String mostrarIndex(Model model) 
 	{
-		List<Categoria> categorias = service.buscarTodas();
+		List<Categoria> categorias = serviceCategorias.buscarTodas();
 		model.addAttribute("categorias", categorias);
 		
 		return "categorias/listCategorias";
@@ -49,11 +49,19 @@ public class CategoriasController {
 		System.out.println("Categoria:" + categoria.getNombre());
 		System.out.println("Descripcion:" + categoria.getDescripcion());
 		
-		service.guardar(categoria);
+		serviceCategorias.guardar(categoria);
 		
 		atributes.addFlashAttribute("msg", "Registro Guardado");
 		
 		return "redirect:/categorias/index";
+	}
+	
+	@GetMapping(value = "/indexPaginate")
+	public String mostrarIndexPaginado(Model model, Pageable page) 
+	{
+		Page<Categoria> lista = serviceCategorias.buscarTodas(page);
+		model.addAttribute("categorias", lista);
+		return "categorias/listCategorias";
 	}
 
 

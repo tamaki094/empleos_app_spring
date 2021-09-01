@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import net.edrialan.model.Categoria;
@@ -97,6 +99,13 @@ public class CategoriasServiceImpl implements ICategoriasService
 	public void eliminar(Integer idCategoria) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public Page<Categoria> buscarTodas(Pageable page) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

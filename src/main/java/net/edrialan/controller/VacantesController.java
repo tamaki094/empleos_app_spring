@@ -2,6 +2,7 @@ package net.edrialan.controller;
 
 import java.util.Date;
 import java.util.List;
+
 import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,6 +25,8 @@ import net.edrialan.model.Vacante;
 import net.edrialan.service.ICategoriasService;
 import net.edrialan.service.IVacantesService;
 import net.edrialan.util.Utileria;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Controller
 @RequestMapping("/vacantes")
@@ -33,7 +36,7 @@ public class VacantesController {
 	private String ruta;
 
 	@Autowired
-	private IVacantesService service;
+	private IVacantesService serviceVacantes;
 	
 	@Autowired
 	@Qualifier("categoriasServiceJpa")
@@ -42,7 +45,7 @@ public class VacantesController {
 	@GetMapping("/")
 	public String mostrarIndex(Model model)
 	{
-		List<Vacante> vacantes = service.buscarTodas();
+		List<Vacante> vacantes = serviceVacantes.buscarTodas();
 		model.addAttribute("vacantes", vacantes);
 		
 		return "vacantes/listVacantes";
@@ -93,7 +96,7 @@ public class VacantesController {
 			}
 		}
 		System.out.println("Detalles:" + vacante.toString());
-		service.guardar(vacante);
+		serviceVacantes.guardar(vacante);
 		
 		atributes.addFlashAttribute("msg", "Registro Guardado");
 		
@@ -105,7 +108,7 @@ public class VacantesController {
 	public String eliminar(@PathVariable("id") int idVacante, Model model, RedirectAttributes atributes)
 	{
 		
-		service.eliminar(idVacante);
+		serviceVacantes.eliminar(idVacante);
 		atributes.addFlashAttribute("msg", "La vacante ha sido eliminada");
 		System.out.println("Borrando vacante con id:" + idVacante);
 		model.addAttribute("id" , idVacante);
@@ -116,7 +119,7 @@ public class VacantesController {
 	@GetMapping("/view/{id}")
 	public String verDetalle(@PathVariable("id") int idVacante, Model model)
 	{
-		Vacante vacante = service.buscarPorId(idVacante);
+		Vacante vacante = serviceVacantes.buscarPorId(idVacante);
 		model.addAttribute("vacante", vacante);
 		
 		return "info_vacante";
@@ -132,10 +135,19 @@ public class VacantesController {
 	@GetMapping("/edit/{id}")
 	public String editar(@PathVariable("id")int idVacante, Model model)
 	{
-		Vacante vacante = service.buscarPorId(idVacante);
+		Vacante vacante = serviceVacantes.buscarPorId(idVacante);
 		model.addAttribute("vacante", vacante);
 		model.addAttribute("categorias", serviceCategorias.buscarTodas());
 		return "vacantes/formVacante";
 		
 	}
+	
+	@GetMapping(value = "/indexPaginate")
+	public String mostrarIndexPaginado(Model model, Pageable page) 
+	{
+		Page<Vacante> lista = serviceVacantes.buscarTodas(page);
+		model.addAttribute("vacantes", lista);
+		return "vacantes/listVacantes";
+	}
+
 }
