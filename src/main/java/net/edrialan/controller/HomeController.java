@@ -1,5 +1,9 @@
 package net.edrialan.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -10,7 +14,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.edrialan.model.Perfil;
@@ -27,6 +33,9 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class HomeController {
 	
@@ -39,6 +48,9 @@ public class HomeController {
 	@Autowired
 	@Qualifier("categoriasServiceJpa")
 	private ICategoriasService serviceCategorias;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	
 	@GetMapping("/detalle")
@@ -72,6 +84,11 @@ public class HomeController {
 	@PostMapping("/signup")
 	public String guardarRegistro(Usuario usuario, RedirectAttributes attributes) 
 	{
+		
+		String pwdPlano = usuario.getPassword();
+		String   pwdEncriptado = passwordEncoder.encode(pwdPlano);
+		usuario.setPassword(pwdEncriptado);
+		
 		usuario.setEstatus(1);
 		usuario.setFechaRegistro(new Date());
 		
@@ -110,6 +127,50 @@ public class HomeController {
 	public void initBinder(WebDataBinder binder)
 	{
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+	}
+	
+	@GetMapping("/index")
+	public String mostrarIndex(Authentication auth, HttpSession session)
+	{
+		String username = auth.getName();
+		System.out.println("USUARIO: " + username);
+		
+		for (GrantedAuthority rol : auth.getAuthorities()) 
+		{
+			System.out.println("Rol: " + rol.getAuthority());
+		}
+		
+		if(session.getAttribute("usuario") == null)
+		{
+			Usuario usuario = serviceUsuarios.buscarPorUsername(username);
+			usuario.setPassword(null);
+			session.setAttribute("usuario", usuario);
+			System.out.println("usuairo:" + usuario.toString() );
+		}
+		
+		
+		return "redirect:/";
+	}
+	
+	@GetMapping("/bcrypt/{texto}")
+	@ResponseBody
+	public String encriptar(@PathVariable("texto")String texto)
+	{
+		return texto + " Encriptado en Bcrypt: " + passwordEncoder.encode(texto);
+	}
+	
+	@GetMapping("/login" )
+	public String mostrarLogin() 
+	{
+		return "formLogin";
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpServletRequest request)
+	{
+		SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+		logoutHandler.logout(request, null, null);
+		return "redirect:/login";
 	}
 	
 }
