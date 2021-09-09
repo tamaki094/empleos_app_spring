@@ -1,3 +1,4 @@
 $( document ).ready(function() {
-	alert("prueba");
+  // Handler for .ready() called.
+  alert("cargado");
 });
